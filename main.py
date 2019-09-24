@@ -1,6 +1,6 @@
 import random
 
-my_wallet = [3]
+my_wallet = [2]
 
 def greeting():
   print(f"Welcome to the Casino!\nYou have been given a ${sum(my_wallet):.2f} credit.\nCash out at any time.\nIf you run out of money, you can add more.")
@@ -12,7 +12,7 @@ seven = ['7', '7', '7']
 bar = ['bar', 'bar', 'bar']
 
 def pay_table():
-  print("Welcome to the slot machine! Spin the wheel for your chance to win!\nEach spin costs $0.25.\nThe following combinations will result in a win:\n -jackpot, jackpot, jackpot: Pays out the grand jackpot of $10,000!\n -cherry, cherry, cherry: Pays $100\n -7, 7, 7: Pays $50\n -bar, bar, bar: Pays $20\n -Any combination with 2 cherries: Pays $10\n -Any combination with 1 cherry: Pays $1\nGet ready to play!")
+  print("Play the slot machine! Spin the wheel for your chance to win!\nEach spin costs $0.25.\nThe following combinations will result in a win:\n -jackpot, jackpot, jackpot: Pays out the grand jackpot of $10,000!\n -cherry, cherry, cherry: Pays $100\n -7, 7, 7: Pays $50\n -bar, bar, bar: Pays $20\n -Any combination with 2 cherries: Pays $5\n -Any combination with 1 cherry: Pays $0.50\nGet ready to play!")
 
 def players_option():
   play_or_quit = input("Would you like to (S)pin, (C)ash out, (V)iew your wallet's balance, or (A)dd to your wallet? ").upper()
@@ -24,10 +24,7 @@ def players_option():
     print(f"Your wallet's balance is ${sum(my_wallet):.2f}.")
     players_option()
   elif play_or_quit == 'A':
-    amount = input("How much money would you like to add to your wallet? ")
-    my_wallet.append(float(amount))
-    print(f"Your wallet's total is now ${sum(my_wallet):.2f}.")
-    players_option()
+    add_money()
   else: 
     print('That is not a valid option. Try again.')
     players_option()
@@ -41,12 +38,32 @@ def check_wallet_balance():
     print("You do not have enough money to play the slot machine. Please add more money to your wallet.")
     players_option()
 
+def add_money():
+  amount = input("How much money would you like to add to your wallet?\n (1)$5.00\n (2)$10.00\n (3)$20.00\n (4)Return to slot machine. ")
+  if amount == '1':
+    my_wallet.append(5)
+    print(f"Your wallet's total is now ${sum(my_wallet):.2f}.")
+    players_option()
+  elif amount == '2':
+    my_wallet.append(10)
+    print(f"Your wallet's total is now ${sum(my_wallet):.2f}.")
+    players_option()
+  elif amount == '3':
+    my_wallet.append(20)
+    print(f"Your wallet's total is now ${sum(my_wallet):.2f}.")
+    players_option()
+  elif amount == '4':
+    players_option()
+  else:
+    print("That is not a valid selection. Try again.")
+    add_money()
+
 def spin():
   first_item = random.choice(slot_machine_values)
   second_item = random.choice(slot_machine_values)
   third_item = random.choice(slot_machine_values)
   players_spin = [first_item, second_item, third_item]
-  print(f"Your spin is: {players_spin}.")
+  print(f"Your spin is:\n{(', '.join(players_spin))}")
 
   if players_spin == jackpot:
     my_wallet.append(10000)
@@ -65,28 +82,28 @@ def spin():
     print("You won $20")
     players_option()
   elif first_item == 'cherry' and second_item == 'cherry' and third_item != 'cherry':
-    my_wallet.append(10)
-    print("You won $10")
+    my_wallet.append(5)
+    print("You won $5")
     players_option()
   elif first_item == 'cherry' and second_item != 'cherry' and third_item == 'cherry':
-    my_wallet.append(10)
-    print("You won $10")
+    my_wallet.append(5)
+    print("You won $5")
     players_option()
   elif first_item != 'cherry' and second_item == 'cherry' and third_item == 'cherry':
-    my_wallet.append(10)
-    print("You won $10")
+    my_wallet.append(5)
+    print("You won $5")
     players_option()
   elif first_item == 'cherry' and second_item != 'cherry' and third_item != 'cherry':
-    my_wallet.append(1)
-    print("You won $1")
+    my_wallet.append(0.50)
+    print("You won $0.50")
     players_option()
   elif first_item != 'cherry' and second_item == 'cherry' and third_item != 'cherry':
-    my_wallet.append(1)
-    print("You won $1")
+    my_wallet.append(0.50)
+    print("You won $0.50")
     players_option()
   elif first_item != 'cherry' and second_item != 'cherry' and third_item == 'cherry':
-    my_wallet.append(1)
-    print("You won $1")
+    my_wallet.append(0.50)
+    print("You won $0.50")
     players_option()  
   else:
     print("You did not win. Sorry.")
